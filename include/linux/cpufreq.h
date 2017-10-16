@@ -13,6 +13,7 @@
 
 #include <linux/clk.h>
 #include <linux/cpumask.h>
+#include <linux/cputime.h>
 #include <linux/completion.h>
 #include <linux/kobject.h>
 #include <linux/notifier.h>
@@ -525,7 +526,13 @@ void cpufreq_unregister_governor(struct cpufreq_governor *governor);
 #ifdef CONFIG_CPU_FREQ_GOV_PERFORMANCE
 extern struct cpufreq_governor cpufreq_gov_performance;
 #endif
-#ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+/*
+ * MSM kernels will only boot with performance as the default CPU governor,
+ * so don't let users choose default CPU governor other than performance
+ * since Android's init script will change the CPU governor after boot to
+ * the desired CPU governor.
+ */
+#if defined(CONFIG_ARCH_MSM) || defined(CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE)
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_performance)
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE)
 extern struct cpufreq_governor cpufreq_gov_powersave;
@@ -727,6 +734,7 @@ void cpufreq_task_stats_init(struct task_struct *p);
 void cpufreq_task_stats_remove_uids(uid_t uid_start, uid_t uid_end);
 int  proc_time_in_state_show(struct seq_file *m, struct pid_namespace *ns,
 	struct pid *pid, struct task_struct *p);
+int single_uid_time_in_state_open(struct inode *inode, struct file *file);
 #else
 static inline void acct_update_power(struct task_struct *p,
 	cputime_t cputime) {}
