@@ -61,8 +61,8 @@ void irqtime_account_irq(struct task_struct *curr)
 
 	local_irq_save(flags);
 
-	cpu = smp_processor_id();
 #ifdef CONFIG_SCHED_WALT
+	cpu = raw_smp_processor_id();
 	wallclock = sched_clock_cpu(cpu);
 #endif
 	delta = sched_clock_cpu(cpu) - __this_cpu_read(irq_start_time);
@@ -288,7 +288,7 @@ static __always_inline bool steal_account_process_tick(void)
 		u64 steal;
 		unsigned long steal_jiffies;
 
-		steal = paravirt_steal_clock(smp_processor_id());
+		steal = paravirt_steal_clock(raw_smp_processor_id());
 		steal -= this_rq()->prev_steal_time;
 
 		/*
@@ -775,7 +775,7 @@ void arch_vtime_task_switch(struct task_struct *prev)
 
 	write_seqlock(&current->vtime_seqlock);
 	current->vtime_snap_whence = VTIME_SYS;
-	current->vtime_snap = sched_clock_cpu(smp_processor_id());
+	current->vtime_snap = sched_clock_cpu(raw_smp_processor_id());
 	write_sequnlock(&current->vtime_seqlock);
 }
 
