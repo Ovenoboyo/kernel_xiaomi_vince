@@ -490,3 +490,4 @@ struct cpe_lsm_media_fmt_param {
 #define CPE_MEDIA_FMT_PARAM_SIZE ((CPE_MEDIA_FMT_PLD_SIZE) - \
 				  sizeof(struct cpe_param_data))
 #endif /* __CPE_CMI_H__ */
+
