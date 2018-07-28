@@ -47,7 +47,7 @@ export KBUILD_BUILD_HOST="Kekboi"
 #CC="/media/oveno/649AC4299AC3F6181/xtended/prebuilts/clang/host/linux-x86/clang-4053586/bin/clang"
 
 #Misc
-CONFIG=vince_defconfig
+CONFIG=zucc_defconfig
 THREAD="-j4"
 
 #Main script
@@ -125,7 +125,7 @@ if [ "$choice" == "4" ]; then
   cp $KERN_IMG $ZIP_DIR/Image.gz-dtb
   make &>/dev/null
   make sign &>/dev/null
-  cd /media/oveno/649AC4299AC3F6181/zucc/bak/dark-base/nt
+  cd /media/oveno/649AC4299AC3F6181/zucc/bak/EAS
   echo -e "$purple(i) Flashable zip generated under $ZIP_DIR.$nc"
   echo -e "$cyan#######################################################################$nc"
 fi
