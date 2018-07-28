@@ -1149,4 +1149,16 @@ config TOUCHSCREEN_TD4310_E7
 	  To compile this driver as a module, choose M here: the
 	  module will be called ist3038c_ts.
 
+config TOUCHSCREEN_HIMAX_CHIPSET
+	bool "Himax touchpanel CHIPSET"
+	depends on I2C
+	help
+	  Say Y here if you have a Himax CHIPSET touchscreen.
+	  HIMAX controllers are multi touch controllers which can
+	  report 10 touches at a time.
+
+	  If unsure, say N.
+
+source "drivers/input/touchscreen/hxchipset/Kconfig"
+
 endif
