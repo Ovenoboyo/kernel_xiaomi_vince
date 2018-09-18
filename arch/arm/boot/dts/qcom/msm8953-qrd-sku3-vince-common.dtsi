@@ -58,3 +58,4 @@
 	};
 };
 #include "vince/msm8953-vince.dtsi"
+#include "blackrover/msm8953-blackrover.dtsi"
