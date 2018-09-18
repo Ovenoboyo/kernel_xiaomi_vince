@@ -1,0 +1,20 @@
+/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018, Raphielscape LLC.
+ *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
+
+&soc {
+   msm_gpu: qcom,kgsl-3d0@1c00000 {
+       /*
+        * Time in microseconds for
+        * idle timeout.
+        */
+       qcom,idle-timeout = <64>;
+       /*
+        * Timeout to enter deeper power saving state
+        * from NAP.
+        */
+       qcom,deep-nap-timeout = <20>;
+   };
+};
