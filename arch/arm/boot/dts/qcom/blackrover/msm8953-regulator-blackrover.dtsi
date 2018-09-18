@@ -1,0 +1,14 @@
+/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018, Raphielscape LLC.
+ *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
+
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+
+ &soc {
+     apc_cpr: cpr4-ctrl@b018000 {
+         qcom,cpr-count-mode = <2>;		/* Staggered */
+         qcom,cpr-voltage-settling-time = <1600>;
+     };
+ };

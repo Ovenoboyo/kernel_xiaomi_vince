@@ -201,3 +201,5 @@
 &wcd_rst_gpio {
 	status = "disabled";
 };
+
+#include "blackrover/msm8953-blackrover.dtsi"

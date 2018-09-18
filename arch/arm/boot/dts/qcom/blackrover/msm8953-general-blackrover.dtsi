@@ -1,0 +1,12 @@
+/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018, Raphielscape LLC.
+ *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
+
+ &soc {
+     qcom,bcl {
+                /delete-property/ qcom,bcl-hotplug-list;
+                /delete-property/ qcom,bcl-soc-hotplug-list;
+        };
+ };
