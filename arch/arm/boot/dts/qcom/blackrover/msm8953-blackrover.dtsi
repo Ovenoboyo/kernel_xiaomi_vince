@@ -7,3 +7,4 @@
  #include "msm8953-general-blackrover.dtsi"
  #include "msm8953-gpu-blackrover.dtsi"
  #include "msm8953-regulator-blackrover.dtsi"
+ #include "msm8953-panel-blackrover.dtsi"

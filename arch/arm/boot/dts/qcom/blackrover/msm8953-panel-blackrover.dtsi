@@ -1,0 +1,26 @@
+/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018, Raphielscape LLC.
+ *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
+
+ &spmi_bus {
+	qcom,pmi8950@3 {
+        /*
+         * Start lcd-voltage at more sane low-point in first-jump
+         * and put a little bit more lower voltage for
+         * regulatory microvolt
+         */
+        labibb: qpnp-labibb-regulator {
+            ibb_regulator: qcom,ibb@dc00 {
+                regulator-max-microvolt = <5900000>;
+                qcom,qpnp-ibb-init-lcd-voltage = <5100000>;
+            };
+
+        lab_regulator: qcom,lab@de00 {
+                regulator-max-microvolt = <5900000>;
+                qcom,qpnp-ibb-init-lcd-voltage = <5700000>;
+            };
+        };
+    };
+};
