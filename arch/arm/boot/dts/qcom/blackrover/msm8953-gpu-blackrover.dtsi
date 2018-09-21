@@ -15,6 +15,6 @@
         * Timeout to enter deeper power saving state
         * from NAP.
         */
-       qcom,deep-nap-timeout = <20>;
+       qcom,deep-nap-timeout = <72>;
    };
 };

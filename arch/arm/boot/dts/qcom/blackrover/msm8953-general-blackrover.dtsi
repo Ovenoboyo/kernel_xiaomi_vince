@@ -5,6 +5,9 @@
  */
 
  &soc {
+     qcom,msm-thermal {
+                qcom,poll-ms = <1000>; // Do pooling every 1 seconds
+     };
      qcom,bcl {
                 /delete-property/ qcom,bcl-hotplug-list;
                 /delete-property/ qcom,bcl-soc-hotplug-list;
