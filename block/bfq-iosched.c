@@ -80,7 +80,7 @@ static const u64 bfq_fifo_expire[2] = { NSEC_PER_SEC / 4, NSEC_PER_SEC / 8 };
 static const int bfq_back_max = (16 * 1024);
 
 /* Penalty of a backwards seek, in number of sectors. */
-static const int bfq_back_penalty = 2;
+static const int bfq_back_penalty = 1;
 
 /* Idling period duration, in ns. */
 static u32 bfq_slice_idle = (NSEC_PER_SEC / 125);
