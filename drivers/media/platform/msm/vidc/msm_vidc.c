@@ -1359,6 +1359,7 @@ static void close_helper(struct kref *kref)
 
 int msm_vidc_close(void *instance)
 {
+
 	struct msm_vidc_inst *inst = instance;
 	struct buffer_info *bi, *dummy;
 	int rc = 0;
