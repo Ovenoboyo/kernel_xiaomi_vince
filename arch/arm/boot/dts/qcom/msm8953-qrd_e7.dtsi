@@ -259,15 +259,6 @@
 	};
 };
 
-/ {
-	qrd_batterydata: qcom,battery-data {
-		qcom,batt-id-range-pct = <5>;
-		#include "batterydata-qrd-sunwoda-ATL-4v4-4000mah.dtsi"
-		#include "batterydata-qrd-E7-desay-4000mAh.dtsi"
-		#include "batterydata-qrd-coslight-4v4-4000mah.dtsi"
-	};
-};
-
 &pmi8950_charger {
 	qcom,battery-data = <&qrd_batterydata>;
 	qcom,float-voltage-mv = <4400>;
