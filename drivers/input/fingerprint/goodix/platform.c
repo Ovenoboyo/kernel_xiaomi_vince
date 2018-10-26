@@ -38,6 +38,13 @@ int gf_parse_dts(struct gf_dev *gf_dev)
 		goto err_reset;
 	}
 	gpio_direction_output(gf_dev->reset_gpio, 1);
+	return 0;
+}
+
+static int select_pin_ctl (struct gf_dev *gf_dev, const char *name)
+{
+	size_t i;
+	int rc;
 
 	gf_dev->irq_gpio = of_get_named_gpio(np, "fp-gpio-irq", 0);
 	if (gf_dev->irq_gpio < 0) {
@@ -85,6 +92,15 @@ int gf_power_off(struct gf_dev *gf_dev)
 	int rc = 0;
 
 	/* TODO: add your power control here */
+        return rc;
+}
+
+static int hw_reset (struct  gf_dev *gf_dev)
+{
+	int rc = select_pin_ctl (gf_dev, "goodixfp_reset_reset");
+	if (rc)
+		goto exit;
+	 mdelay (3);
 
 	return rc;
 }
