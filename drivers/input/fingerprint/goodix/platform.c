@@ -34,7 +34,6 @@ static int select_pin_ctl (struct gf_dev *gf_dev, const char *name)
 {
 	size_t i;
 	int rc;
-	struct device *dev = &gf_dev->spi->dev;
 
 	for (i = 0; i < ARRAY_SIZE (gf_dev->pinctrl_state); i++) {
 		const char *n = pctl_names[i];
@@ -142,9 +141,6 @@ int gf_power_off (struct gf_dev *gf_dev)
 
 static int hw_reset (struct  gf_dev *gf_dev)
 {
-	int irq_gpio;
-	struct device *dev = &gf_dev->spi->dev;
-
 	int rc = select_pin_ctl (gf_dev, "goodixfp_reset_reset");
 	if (rc)
 		goto exit;
