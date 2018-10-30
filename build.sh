@@ -21,9 +21,7 @@
 #git sudo
 if [ "$UID" != "0" ]; then
    if whereis sudo &>/dev/null; then
-     echo "Please type the sudo password for the user $USER"
      sudo $PWD/build.sh
-
    else
      echo "Sudo not found. You will need to run this script as root."
      exit
