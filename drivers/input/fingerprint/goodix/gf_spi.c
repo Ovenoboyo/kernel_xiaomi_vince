@@ -626,6 +626,7 @@ static int gf_release(struct inode *inode, struct file *filp)
 	/*last close?? */
 	gf_dev->users--;
 	if (!gf_dev->users) {
+	free_irq (&gf_dev->spi->dev, gf_dev->irq, gf_dev);
 
 		pr_info("disble_irq. irq = %d\n", gf_dev->irq);
 
@@ -771,6 +772,16 @@ static int gf_probe(struct platform_device *pdev)
 	} else {
 		gf_dev->devt = 0;
 		goto error_hw;
+	gf_dev->irq = gf_irq_num (gf_dev);
+	ret = devm_request_threaded_irq (&gf_dev->spi->dev,
+					gf_dev->irq,
+					NULL,
+					gf_irq,
+					IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_TH_SCHED_FIFO_HI,
+					"gf", gf_dev);
+	if (ret) {
+		pr_err ("Could not request irq %d\n", gpio_to_irq (gf_dev->irq_gpio));
+		goto error;
 	}
 	mutex_unlock(&device_list_lock);
 
@@ -849,14 +860,27 @@ static int gf_remove(struct platform_device *pdev)
 		input_unregister_device(gf_dev->input);
 	input_free_device(gf_dev->input);
 
-	/* prevent new opens */
-	mutex_lock(&device_list_lock);
-	list_del(&gf_dev->device_entry);
-	device_destroy(gf_class, gf_dev->devt);
-	clear_bit(MINOR(gf_dev->devt), minors);
-	mutex_unlock(&device_list_lock);
+    /* make sure ops on existing fds can abort cleanly */
+    if (gf_dev->irq)
+		 irq_clear_status_flags(gf_dev->irq, IRQ_DISABLE_UNLAZY);
+		 free_irq(gf_dev->irq, gf_dev);
 
-	return 0;
+    if (gf_dev->input != NULL)
+		 input_unregister_device (gf_dev->input);
+    input_free_device (gf_dev->input);
+
+    /* prevent new opens */
+    mutex_lock (&device_list_lock);
+    list_del (&gf_dev->device_entry);
+    device_destroy (gf_class, gf_dev->devt);
+    clear_bit (MINOR (gf_dev->devt), minors);
+    if (gf_dev->users == 0)
+		 gf_cleanup (gf_dev);
+
+    fb_unregister_client (&gf_dev->notifier);
+    mutex_unlock (&device_list_lock);
+wake_lock_destroy (&fp_wakelock);
+    return 0;
 }
 
 static const struct of_device_id gx_match_table[] = {
