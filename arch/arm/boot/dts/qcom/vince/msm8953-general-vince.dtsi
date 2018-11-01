@@ -490,39 +490,39 @@
 
 
 &pm8953_diangu_dig {
-	status = "ok";
+	status = "okay";
 };
 
 &pm8953_diangu_analog {
-	status = "ok";
+	status = "okay";
 };
 
 &ext_codec {
-	status = "disabled";
+	status = "okay";
 };
 
 &slim_msm {
-	status = "disabled";
+	status = "okay";
 };
 
 &dai_slim {
-	status = "disabled";
+	status = "okay";
 };
 
 &clock_audio {
-	status = "disabled";
+	status = "okay";
 };
 
 &wcd9335 {
-	status = "disabled";
+	status = "okay";
 };
 
 &wcd_rst_gpio {
-	status = "disabled";
+	status = "okay";
 };
 
 &wcd9xxx_intc {
-	status = "disabled";
+	status = "okay";
 };
 
 &firmware {
