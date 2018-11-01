@@ -1,7 +1,7 @@
 /*
 ** =============================================================================
 ** Copyright (c) 2016  Texas Instruments Inc.
- * Copyright (C) 2018 XiaoMi, Inc.
+** Copyright (C) 2018 XiaoMi, Inc.
 **
 ** This program is free software; you can redistribute it and/or modify it under
 ** the terms of the GNU General Public License as published by the Free Software
@@ -38,27 +38,17 @@
 
 #include "tiload.h"
 
-/* enable debug prints in the driver */
 #define DEBUG
 
 static struct cdev *tiload_cdev;
-static int tiload_major; /* Dynamic allocation of Mjr No. */
-static int tiload_opened; /* Dynamic allocation of Mjr No. */
+static int tiload_major;
+static int tiload_opened;
 static struct tas2557_priv *g_TAS2557;
 struct class *tiload_class;
 static unsigned int magic_num;
 
 static char gPage;
 static char gBook;
-/******************************** Debug section *****************************/
-
-
-/*----------------------------------------------------------------------------
- * Function : tiload_open
- *
- * Purpose  : open method for tiload programming interface
- *----------------------------------------------------------------------------
- */
 static int tiload_open(struct inode *in, struct file *filp)
 {
 	struct tas2557_priv *pTAS2557 = g_TAS2557;
@@ -74,12 +64,6 @@ static int tiload_open(struct inode *in, struct file *filp)
 	return 0;
 }
 
-/*----------------------------------------------------------------------------
- * Function : tiload_release
- *
- * Purpose  : close method for tiload programming interface
- *----------------------------------------------------------------------------
- */
 static int tiload_release(struct inode *in, struct file *filp)
 {
 	struct tas2557_priv *pTAS2557 = (struct tas2557_priv *)filp->private_data;
@@ -91,12 +75,6 @@ static int tiload_release(struct inode *in, struct file *filp)
 }
 
 #define MAX_LENGTH 128
-/*----------------------------------------------------------------------------
- * Function : tiload_read
- *
- * Purpose  : read from codec
- *----------------------------------------------------------------------------
- */
 static ssize_t tiload_read(struct file *filp, char __user *buf,
 	size_t count, loff_t *offset)
 {
@@ -107,7 +85,6 @@ static ssize_t tiload_read(struct file *filp, char __user *buf,
 	size_t size;
 	int ret = 0;
 #ifdef DEBUG
-	/* int i; */
 #endif
 
 	dev_info(pTAS2557->dev, "%s\n", __func__);
@@ -116,7 +93,6 @@ static ssize_t tiload_read(struct file *filp, char __user *buf,
 		return -EINVAL;
 	}
 
-	/* copy register address from user space  */
 	size = copy_from_user(&reg_addr, buf, 1);
 	if (size != 0) {
 		dev_err(pTAS2557->dev, "read: copy_from_user failure\n");
@@ -143,10 +119,6 @@ static ssize_t tiload_read(struct file *filp, char __user *buf,
 #ifdef DEBUG
 	dev_info(pTAS2557->dev, "read size = %d, reg_addr= %x , count = %d\n",
 		(int) size, reg_addr, (int) count);
-/*	for (i = 0; i < (int) size; i++) {
-*		dev_dbg(pTAS2557->dev, "rd_data[%d]=%x\n", i, rd_data[i]);
-*	}
-*/
 #endif
 	if (size != count)
 		dev_err(pTAS2557->dev, "read %d registers from the codec\n", (int) size);
@@ -159,13 +131,6 @@ static ssize_t tiload_read(struct file *filp, char __user *buf,
 	return size;
 }
 
-/*
- *----------------------------------------------------------------------------
- * Function : tiload_write
- *
- * Purpose  : write to codec
- *----------------------------------------------------------------------------
- */
 static ssize_t tiload_write(struct file *filp, const char __user *buf,
 	size_t count, loff_t *offset)
 {
@@ -177,7 +142,6 @@ static ssize_t tiload_write(struct file *filp, const char __user *buf,
 	unsigned int nRegister;
 	int ret = 0;
 #ifdef DEBUG
-	/* int i; */
 #endif
 	dev_info(pTAS2557->dev, "%s\n", __func__);
 
@@ -186,7 +150,6 @@ static ssize_t tiload_write(struct file *filp, const char __user *buf,
 		return -EINVAL;
 	}
 
-	/* copy buffer from user space  */
 	size = copy_from_user(wr_data, buf, count);
 	if (size != 0) {
 		dev_err(pTAS2557->dev, "copy_from_user failure %d\n", (int) size);
@@ -194,10 +157,6 @@ static ssize_t tiload_write(struct file *filp, const char __user *buf,
 	}
 #ifdef DEBUG
 	dev_info(pTAS2557->dev, "write size = %zu\n", count);
-/* for (i = 0; i < (int) count; i++) {
-*		dev_info(pTAS2557->dev, "wr_data[%d]=%x\n", i, wr_data[i]);
-*	}
-*/
 #endif
 	nRegister = wr_data[0];
 	size = count;
@@ -247,9 +206,6 @@ static long tiload_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	struct BPR bpr;
 
 	dev_info(pTAS2557->dev, "%s, cmd=0x%x\n", __func__, cmd);
-/*  if (_IOC_TYPE(cmd) != TILOAD_IOC_MAGIC)
- *      return -ENOTTY;
- */
 
 	switch (cmd) {
 	case TILOAD_IOMAGICNUM_GET:
@@ -349,7 +305,6 @@ static long tiload_compat_ioctl(struct file *filp, unsigned int cmd, unsigned lo
 }
 #endif
 
-/*********** File operations structure for tiload *************/
 static const struct file_operations tiload_fops = {
 	.owner = THIS_MODULE,
 	.open = tiload_open,
@@ -362,12 +317,6 @@ static const struct file_operations tiload_fops = {
 #endif
 };
 
-/*----------------------------------------------------------------------------
- * Function : tiload_driver_init
- *
- * Purpose  : Register a char driver for dynamic tiload programming
- *----------------------------------------------------------------------------
- */
 int tiload_driver_init(struct tas2557_priv *pTAS2557)
 {
 	int result;
@@ -401,7 +350,6 @@ int tiload_driver_init(struct tas2557_priv *pTAS2557)
 		return 1;
 	}
 	dev_info(pTAS2557->dev, "Registered TiLoad driver, Major number: %d\n", tiload_major);
-	/* class_device_create(tiload_class, NULL, dev, NULL, DEVICE_NAME, 0); */
 	return 0;
 }
 
