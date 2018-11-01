@@ -1,7 +1,7 @@
 /*
 ** =============================================================================
 ** Copyright (c) 2016  Texas Instruments Inc.
- * Copyright (C) 2018 XiaoMi, Inc.
+** Copyright (C) 2018 XiaoMi, Inc.
 **
 ** This program is free software; you can redistribute it and/or modify it under
 ** the terms of the GNU General Public License as published by the Free Software
@@ -32,14 +32,12 @@
 #define BPR_REG(book, page, reg)		(((book * 256 * 128) + \
 						 (page * 128)) + reg)
 
-/* typedefs required for the included header files */
 struct BPR {
 	unsigned char nBook;
 	unsigned char nPage;
 	unsigned char nRegister;
 };
 
-/* defines */
 #define DEVICE_NAME     "tiload_node"
 
 #define TILOAD_IOC_MAGIC   0xE0

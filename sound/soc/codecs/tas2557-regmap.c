@@ -1,7 +1,7 @@
 /*
 ** =============================================================================
 ** Copyright (c) 2016  Texas Instruments Inc.
- * Copyright (C) 2018 XiaoMi, Inc.
+** Copyright (C) 2018 XiaoMi, Inc.
 **
 ** This program is free software; you can redistribute it and/or modify it under
 ** the terms of the GNU General Public License as published by the Free Software
@@ -125,7 +125,7 @@ static int tas2557_dev_read(
 
 	if (pTAS2557->mbTILoadActive) {
 		if (!(nRegister & 0x80000000))
-			goto end; /* let only reads from TILoad pass. */
+			goto end;
 		nRegister &= ~0x80000000;
 
 		dev_dbg(pTAS2557->dev, "TiLoad R REG B[%d]P[%d]R[%d]\n",
@@ -175,7 +175,7 @@ static int tas2557_dev_write(
 
 	if (pTAS2557->mbTILoadActive) {
 		if (!(nRegister & 0x80000000))
-			goto end;/* let only writes from TILoad pass. */
+			goto end;
 		nRegister &= ~0x80000000;
 
 		dev_dbg(pTAS2557->dev, "TiLoad W REG B[%d]P[%d]R[%d] =0x%x\n",
@@ -216,7 +216,7 @@ static int tas2557_dev_bulk_read(
 	mutex_lock(&pTAS2557->dev_lock);
 	if (pTAS2557->mbTILoadActive) {
 		if (!(nRegister & 0x80000000))
-			goto end; /* let only writes from TILoad pass. */
+			goto end;
 
 		nRegister &= ~0x80000000;
 		dev_dbg(pTAS2557->dev, "TiLoad BR REG B[%d]P[%d]R[%d], count=%d\n",
@@ -256,7 +256,7 @@ static int tas2557_dev_bulk_write(
 	mutex_lock(&pTAS2557->dev_lock);
 	if (pTAS2557->mbTILoadActive) {
 		if (!(nRegister & 0x80000000))
-			goto end; /* let only writes from TILoad pass. */
+			goto end;
 
 		nRegister &= ~0x80000000;
 
@@ -298,7 +298,7 @@ static int tas2557_dev_update_bits(
 
 	if (pTAS2557->mbTILoadActive) {
 		if (!(nRegister & 0x80000000))
-			goto end; /* let only writes from TILoad pass. */
+			goto end;
 
 		nRegister &= ~0x80000000;
 		dev_dbg(pTAS2557->dev, "TiLoad SB REG B[%d]P[%d]R[%d], mask=0x%x, value=0x%x\n",
@@ -344,17 +344,14 @@ void tas2557_enableIRQ(struct tas2557_priv *pTAS2557, bool enable)
 		if (!pTAS2557->mbIRQEnable) {
 			if (gpio_is_valid(pTAS2557->mnGpioINT)) {
 				enable_irq(pTAS2557->mnIRQ);
-				/* check after 10 ms */
 				schedule_delayed_work(&pTAS2557->irq_work, msecs_to_jiffies(10));
 				pTAS2557->mbIRQEnable = true;
 			}
 		}
 	} else {
-		if (pTAS2557->mbIRQEnable) {
-			if (gpio_is_valid(pTAS2557->mnGpioINT))
-				disable_irq_nosync(pTAS2557->mnIRQ);
-			pTAS2557->mbIRQEnable = false;
-		}
+		if (gpio_is_valid(pTAS2557->mnGpioINT))
+		disable_irq_nosync(pTAS2557->mnIRQ);
+		pTAS2557->mbIRQEnable = false;
 	}
 }
 
@@ -419,7 +416,6 @@ static void irq_work_routine(struct work_struct *work)
 		goto program;
 
 	if (((nDevInt1Status & 0xfc) != 0) || ((nDevInt2Status & 0x0c) != 0)) {
-		/* in case of INT_OC, INT_UV, INT_OT, INT_BO, INT_CL, INT_CLK1, INT_CLK2 */
 		dev_err(pTAS2557->dev, "critical error: 0x%x, 0x%x\n", nDevInt1Status, nDevInt2Status);
 		if (nDevInt1Status & 0x80) {
 			pTAS2557->mnErrCode |= ERROR_OVER_CURRENT;
@@ -481,7 +477,6 @@ static void irq_work_routine(struct work_struct *work)
 				break;
 			nCounter--;
 			if (nCounter > 0) {
-				/* in case check pow status just after power on TAS2557 */
 				dev_dbg(pTAS2557->dev, "PowSts: 0x%x, check again after 10ms\n",
 					nDevPowerUpFlag);
 				msleep(10);
@@ -505,7 +500,6 @@ static void irq_work_routine(struct work_struct *work)
 	}
 
 program:
-	/* hardware reset and reload */
 	tas2557_set_program(pTAS2557, pTAS2557->mnCurrentProgram, pTAS2557->mnCurrentConfiguration);
 
 end:
@@ -524,7 +518,6 @@ static irqreturn_t tas2557_irq_handler(int irq, void *dev_id)
 	struct tas2557_priv *pTAS2557 = (struct tas2557_priv *)dev_id;
 
 	tas2557_enableIRQ(pTAS2557, false);
-	/* get IRQ status after 100 ms */
 	schedule_delayed_work(&pTAS2557->irq_work, msecs_to_jiffies(100));
 	return IRQ_HANDLED;
 }
@@ -585,7 +578,6 @@ static void timer_work_routine(struct work_struct *work)
 			nAvg /= LOW_TEMPERATURE_COUNTER;
 			dev_dbg(pTAS2557->dev, "check : avg=%d\n", nAvg);
 			if ((nAvg & 0x80000000) != 0) {
-				/* if Die temperature is below ZERO */
 				if (pTAS2557->mnDevCurrentGain != LOW_TEMPERATURE_GAIN) {
 					nResult = tas2557_set_DAC_gain(pTAS2557, LOW_TEMPERATURE_GAIN);
 					if (nResult < 0)
@@ -594,7 +586,6 @@ static void timer_work_routine(struct work_struct *work)
 					dev_dbg(pTAS2557->dev, "LOW Temp: set gain to %d\n", LOW_TEMPERATURE_GAIN);
 				}
 			} else if (nAvg > 5) {
-				/* if Die temperature is above 5 degree C */
 				if (pTAS2557->mnDevCurrentGain != pTAS2557->mnDevGain) {
 					nResult = tas2557_set_DAC_gain(pTAS2557, pTAS2557->mnDevGain);
 					if (nResult < 0)
@@ -694,10 +685,6 @@ static const struct regmap_config tas2557_i2c_regmap = {
 	.max_register = 128,
 };
 
-/* tas2557_i2c_probe :
-* platform dependent
-* should implement hardware reset functionality
-*/
 static int tas2557_i2c_probe(struct i2c_client *pClient,
 	const struct i2c_device_id *pID)
 {
@@ -740,7 +727,7 @@ static int tas2557_i2c_probe(struct i2c_client *pClient,
 		tas2557_hw_reset(pTAS2557);
 	}
 
-	set_state = pinctrl_lookup_state(devm_pinctrl_get(pTAS2557->dev), "smartpa_irq_active");
+	set_state = pinctrl_lookup_state(devm_pinctrl_get(pTAS2557->dev),"smartpa_irq_active");
 	if (IS_ERR(set_state))
 						printk(" \n cannot get smartpa pinctrl  state\n");
 				else
@@ -765,7 +752,6 @@ static int tas2557_i2c_probe(struct i2c_client *pClient,
 #endif
 	mutex_init(&pTAS2557->dev_lock);
 
-	/* Reset the chip */
 	nResult = tas2557_dev_write(pTAS2557, TAS2557_SW_RESET_REG, 0x01);
 	if (nResult < 0) {
 		dev_err(&pClient->dev, "I2c fail, %d\n", nResult);

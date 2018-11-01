@@ -1,7 +1,7 @@
 /*
 ** =============================================================================
 ** Copyright (c) 2016  Texas Instruments Inc.
- * Copyright (C) 2018 XiaoMi, Inc.
+** Copyright (C) 2018 XiaoMi, Inc.
 **
 ** This program is free software; you can redistribute it and/or modify it under
 ** the terms of the GNU General Public License as published by the Free Software
@@ -99,7 +99,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 				dev_info(pTAS2557->dev, "TIAUDIO_CMD_REG_READ: nValue=0x%x, value=0x%x\n", nValue, value);
 			ret = copy_to_user(buf, &value, 1);
 			if (ret != 0) {
-				/* Failed to copy all the data, exit */
 				dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 			}
 		} else if (count > 1) {
@@ -110,7 +109,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 					break;
 				ret = copy_to_user(buf, p_kBuf, count);
 				if (ret != 0) {
-					/* Failed to copy all the data, exit */
 					dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 				}
 				kfree(p_kBuf);
@@ -140,7 +138,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 					strlcpy(&p_kBuf[5+FW_NAME_SIZE], pProgram->mpDescription, strlen(pProgram->mpDescription) + 1);
 					ret = copy_to_user(buf, p_kBuf, count);
 					if (ret != 0) {
-						/* Failed to copy all the data, exit */
 						dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 					}
 					kfree(p_kBuf);
@@ -175,7 +172,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 					strlcpy(&p_kBuf[8+FW_NAME_SIZE], pConfiguration->mpDescription, strlen(pConfiguration->mpDescription)+1);
 					ret = copy_to_user(buf, p_kBuf, count);
 					if (ret != 0) {
-						/* Failed to copy all the data, exit */
 						dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 					}
 					kfree(p_kBuf);
@@ -201,7 +197,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 				p_kBuf[3] = ((pTAS2557->mpFirmware->mnTimeStamp&0xff000000)>>24);
 				ret = copy_to_user(buf, p_kBuf, count);
 				if (ret != 0) {
-					/* Failed to copy all the data, exit */
 					dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 				}
 				kfree(p_kBuf);
@@ -220,7 +215,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 
 			ret = copy_to_user(buf, &curCal, 1);
 			if (ret != 0) {
-				/* Failed to copy all the data, exit */
 				dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 			}
 		}
@@ -243,7 +237,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 
 				ret = copy_to_user(buf, p_kBuf, count);
 				if (ret != 0) {
-					/* Failed to copy all the data, exit */
 					dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 				}
 
@@ -265,7 +258,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 			if (ret >= 0) {
 				ret = copy_to_user(buf, &bitRate, 1);
 				if (ret != 0) {
-					/* Failed to copy all the data, exit */
 					dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 				}
 			}
@@ -284,7 +276,6 @@ static ssize_t tas2557_file_read(struct file *file, char *buf, size_t count, lof
 			if (ret >= 0) {
 				ret = copy_to_user(buf, &volume, 1);
 				if (ret != 0) {
-				/* Failed to copy all the data, exit */
 					dev_err(pTAS2557->dev, "copy to user fail %d\n", ret);
 				}
 			}
@@ -394,7 +385,6 @@ static ssize_t tas2557_file_write(struct file *file, const char *buf, size_t cou
 	break;
 
 	case TIAUDIO_CMD_FW_TIMESTAMP:
-	/*let go*/
 	break;
 
 	case TIAUDIO_CMD_CALIBRATION:

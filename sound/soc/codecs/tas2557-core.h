@@ -1,7 +1,7 @@
 /*
 ** =============================================================================
 ** Copyright (c) 2016  Texas Instruments Inc.
- * Copyright (C) 2018 XiaoMi, Inc.
+** Copyright (C) 2018 XiaoMi, Inc.
 **
 ** This program is free software; you can redistribute it and/or modify it under
 ** the terms of the GNU General Public License as published by the Free Software
@@ -40,7 +40,6 @@
 #define TAS2557_YRAM3_START_REG			8
 #define TAS2557_YRAM3_END_REG			27
 
-/* should not include B0_P53_R44-R47 */
 #define TAS2557_YRAM_BOOK2				0
 #define TAS2557_YRAM4_START_PAGE		50
 #define TAS2557_YRAM4_END_PAGE			60
@@ -76,4 +75,4 @@ int tas2557_parse_dt(struct device *dev, struct tas2557_priv *pTAS2557);
 int tas2557_get_DAC_gain(struct tas2557_priv *pTAS2557, unsigned char *pnGain);
 int tas2557_set_DAC_gain(struct tas2557_priv *pTAS2557, unsigned int nGain);
 int tas2557_configIRQ(struct tas2557_priv *pTAS2557);
-#endif /* _TAS2557_CORE_H */
+#endif
