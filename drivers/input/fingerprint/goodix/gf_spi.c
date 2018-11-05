@@ -432,7 +432,7 @@ static int gf_release (struct inode *inode, struct file *filp) {
 	pr_info ("disble_irq. irq = %d\n", gf_dev->irq);
 	gf_disable_irq (gf_dev);
 
-	free_irq (&gf_dev->spi->dev, gf_dev->irq, gf_dev);
+	free_irq(gf_dev->irq, gf_dev);
 
 	/*power off the sensor*/
 	gf_dev->device_available = 0;
