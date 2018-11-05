@@ -626,7 +626,7 @@ static int gf_release(struct inode *inode, struct file *filp)
 	/*last close?? */
 	gf_dev->users--;
 	if (!gf_dev->users) {
-	free_irq (&gf_dev->spi->dev, gf_dev->irq, gf_dev);
+	free_irq(gf_dev->irq, gf_dev);
 
 		pr_info("disble_irq. irq = %d\n", gf_dev->irq);
 
