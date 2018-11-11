@@ -162,46 +162,6 @@ make_zip_test()
   echo -e "$purple(i) Flashable zip (TEST) generated under $ZIP_DIR.$nc"
 }
 
-upstream() #Taken from nathanchance's scripts
-{
-    # Full kernel version
-    CURRENT_VERSION=$(make kernelversion &>/dev/null)
-    CURRENT_MAJOR_VERSION=${CURRENT_VERSION%.*}
-    git fetch https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git linux-$CURRENT_MAJOR_VERSION.y &>/dev/null
-    LATEST_VERSION=$(git tag --sort=-taggerdate -l v"${CURRENT_MAJOR_VERSION}"* | head -n 1 | sed s/v//)
-    CURRENT_SUBLEVEL=${CURRENT_VERSION##*.}
-    TARGET_SUBLEVEL=$((CURRENT_SUBLEVEL + 1))
-    NEXT_VERSION=${CURRENT_MAJOR_VERSION}.${TARGET_SUBLEVEL}
-    while true; do
-    echo -e "\n$green[1] To latest"
-    echo -e "$red[2] To current+1$nc"
-    read choice1
-    if [ "$choice1" == "1" ]; then
-        if [ ${CURRENT_VERSION} == ${LATEST_VERSION} ]; then
-            echo -e "$purple Already at latest"
-        else
-            git fetch https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git v${LATEST_VERSION} &>/dev/null
-            git merge FETCH_HEAD &>/dev/null
-            if [ "$?" == "1" ]; then
-                echo -e "Fix conflicts"
-                exit
-            else
-                echo -e "Merged clean"
-            fi
-         fi
-    fi
-
-    if [ "$choice1" == "2" ]; then
-        if [ ${NEXT_VERSION} > ${LATEST_VERSION} ]; then
-            echo -e "$purple Already at latest/No new version found"
-        else 
-            git fetch https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git v${NEXT_VERSION}
-            git merge FETCH_HEAD
-        fi
-    fi
-    done
-}
-
 #Main script
 while true; do
 echo -e "\n$green[1] Build Kernel"
@@ -209,7 +169,6 @@ echo -e "[2] Regenerate defconfig"
 echo -e "$red[3] Source cleanup"
 echo -e "$green[4] Create flashable zip"
 echo -e "$green[5] Create flashable zip (test build)"
-echo -e "$green[6] Upstream"
 echo -ne "\n$brown(i) Please enter a choice[1-6]:$nc "
 
 read choice
@@ -241,12 +200,6 @@ fi
 if [ "$choice" == "5" ]; then
   echo -e "\n$cyan#######################################################################$nc"
   make_zip_test
-  echo -e "$cyan#######################################################################$nc"
-fi
-
-if [ "$choice" == "6" ]; then
-  echo -e "\n$cyan#######################################################################$nc"
-  upstream
   echo -e "$cyan#######################################################################$nc"
 fi
 done
