@@ -78,10 +78,10 @@ UTS_TRUNCATE="cut -b -$UTS_LEN"
 
   if [ -z "$KBUILD_COMPILER_STRING" ]; then
     echo \#define LINUX_COMPILER \"`$CC -v 2>&1 | grep ' version ' | sed 's/[[:space:]]*$//'`\"
-    echo \#define LINUX_KEKS \"Slaying golbins cuz why not?\"
+    echo \#define LINUX_KEKS \"OC to 2.7 is plain retarded\"
   else
     echo \#define LINUX_COMPILER \"$KBUILD_COMPILER_STRING\"
-    echo \#define LINUX_KEKS \"Slaying golbins cuz why not?\"
+    echo \#define LINUX_KEKS \"OC to 2.7 is plain retarded\"
   fi;
 ) > .tmpcompile
 
