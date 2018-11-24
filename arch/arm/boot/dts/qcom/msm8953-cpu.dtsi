@@ -63,6 +63,7 @@
 			qcom,ea = <&ea0>;
 			efficiency = <1024>;
 			next-level-cache = <&L2_0>;
+			#cooling-cells = <2>;
 			L2_0: l2-cache {
 			      compatible = "arm,arch-cache";
 			      cache-level = <2>;
@@ -90,6 +91,7 @@
 			qcom,ea = <&ea1>;
 			efficiency = <1024>;
 			next-level-cache = <&L2_0>;
+			#cooling-cells = <2>;
 			L1_I_1: l1-icache {
 			      compatible = "arm,arch-cache";
 			      qcom,dump-size = <0x8800>;
@@ -110,6 +112,7 @@
 			qcom,ea = <&ea2>;
 			efficiency = <1024>;
 			next-level-cache = <&L2_0>;
+			#cooling-cells = <2>;
 			L1_I_2: l1-icache {
 			      compatible = "arm,arch-cache";
 			      qcom,dump-size = <0x8800>;
@@ -130,6 +133,7 @@
 			qcom,ea = <&ea3>;
 			efficiency = <1024>;
 			next-level-cache = <&L2_0>;
+			#cooling-cells = <2>;
 			L1_I_3: l1-icache {
 			      compatible = "arm,arch-cache";
 			      qcom,dump-size = <0x8800>;
@@ -150,6 +154,7 @@
 			qcom,ea = <&ea4>;
 			efficiency = <1126>;
 			next-level-cache = <&L2_1>;
+			#cooling-cells = <2>;
 			L2_1: l2-cache {
 			      compatible = "arm,arch-cache";
 			      cache-level = <2>;
@@ -177,6 +182,7 @@
 			qcom,ea = <&ea5>;
 			efficiency = <1126>;
 			next-level-cache = <&L2_1>;
+			#cooling-cells = <2>;
 			L1_I_101: l1-icache {
 			      compatible = "arm,arch-cache";
 			      qcom,dump-size = <0x8800>;
@@ -197,6 +203,7 @@
 			qcom,ea = <&ea6>;
 			efficiency = <1126>;
 			next-level-cache = <&L2_1>;
+			#cooling-cells = <2>;
 			L1_I_102: l1-icache {
 			      compatible = "arm,arch-cache";
 			      qcom,dump-size = <0x8800>;
@@ -217,6 +224,7 @@
 			qcom,ea = <&ea7>;
 			efficiency = <1126>;
 			next-level-cache = <&L2_1>;
+			#cooling-cells = <2>;
 			L1_I_103: l1-icache {
 			      compatible = "arm,arch-cache";
 			      qcom,dump-size = <0x8800>;
