@@ -1,6 +1,10 @@
 VERSION = 3
 PATCHLEVEL = 18
+<<<<<<< HEAD
+SUBLEVEL = 126
+=======
 SUBLEVEL = 129
+>>>>>>> 4b3b788d... Merge 3.18.129 into kernel.lnx.3.18.r34-rel
 EXTRAVERSION =
 NAME = Diseased Newt
 
