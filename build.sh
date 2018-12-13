@@ -44,9 +44,7 @@ nc='\033[0m'
 KERNEL_DIR=$PWD
 TOOL_DIR=$KERNEL_DIR/../toolchains
 PRODUCT_DIR=$KERNEL_DIR/../Output
-KERN_IMG=$PRODUCT_DIR/build/out/arch/arm64/boot/Image.gz
-DTB_T=$PRODUCT_DIR/build/out/arch/arm64/boot/dts/qcom/msm8953-qrd-sku3-vince-t.dtb
-DTB=$PRODUCT_DIR/build/out/arch/arm64/boot/dts/qcom/msm8953-qrd-sku3-vince-nt.dtb
+KERN_IMG=$PRODUCT_DIR/build/out/arch/arm64/boot/Image.gz-dtb
 ZIP_DIR=$PRODUCT_DIR/Zipper
 CONFIG_DIR=$KERNEL_DIR/arch/arm64/configs
 LOG_DIR=$PRODUCT_DIR/log
@@ -142,8 +140,6 @@ make_zip()
   make clean &>/dev/null
   cp $LOG_DIR/Changelog.txt $ZIP_DIR/Changelog.txt
   cp $KERN_IMG $ZIP_DIR/kernel/Image.gz
-  cp $DTB $ZIP_DIR/non-treble/
-  cp $DTB_T $ZIP_DIR/treble/
   make &>/dev/null
   cd $KERNEL_DIR
   echo -e "$purple(i) Flashable zip generated under $ZIP_DIR.$nc"
@@ -154,9 +150,7 @@ make_zip_test()
   cd $ZIP_DIR
   make clean &>/dev/null
   cp $LOG_DIR/Changelog.txt $ZIP_DIR/Changelog.txt
-  cp $KERN_IMG $ZIP_DIR/kernel/Image.gz
-  cp $DTB $ZIP_DIR/non-treble/
-  cp $DTB_T $ZIP_DIR/treble/
+  cp $KERN_IMG $ZIP_DIR/kernel/
   make test &>/dev/null
   cd $KERNEL_DIR
   echo -e "$purple(i) Flashable zip (TEST) generated under $ZIP_DIR.$nc"
