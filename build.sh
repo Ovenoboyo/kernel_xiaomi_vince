@@ -139,7 +139,7 @@ make_zip()
   cd $ZIP_DIR
   make clean &>/dev/null
   cp $LOG_DIR/Changelog.txt $ZIP_DIR/Changelog.txt
-  cp $KERN_IMG $ZIP_DIR/kernel/Image.gz
+  cp $KERN_IMG $ZIP_DIR/
   make &>/dev/null
   cd $KERNEL_DIR
   echo -e "$purple(i) Flashable zip generated under $ZIP_DIR.$nc"
@@ -150,7 +150,7 @@ make_zip_test()
   cd $ZIP_DIR
   make clean &>/dev/null
   cp $LOG_DIR/Changelog.txt $ZIP_DIR/Changelog.txt
-  cp $KERN_IMG $ZIP_DIR/kernel/
+  cp $KERN_IMG $ZIP_DIR/
   make test &>/dev/null
   cd $KERNEL_DIR
   echo -e "$purple(i) Flashable zip (TEST) generated under $ZIP_DIR.$nc"
