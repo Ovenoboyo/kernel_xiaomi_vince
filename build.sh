@@ -136,6 +136,31 @@ clean_sauce()
 
 make_zip()
 {
+  # thanks to @adekmaulana
+  cd $ZIP_DIR
+  make clean &>/dev/null
+  cd ..
+  MODULE_DIR="$PWD/Zipper/modules/system/lib/modules/"
+  PRONTO=${MODULE_DIR}pronto/pronto_wlan.ko
+
+  STRIP="$TOOL_DIR/aarch64-linux-android-4.9/bin/$(echo "$(find "$TOOL_DIR/aarch64-linux-android-4.9/bin" -type f -name "aarch64-*-gcc")" | awk -F '/' '{print $NF}' |\
+sed -e 's/gcc/strip/')"
+
+  for MOD in $(find "${OUT_DIR}" -name '*.ko') ; do
+      "${STRIP}" --strip-unneeded --strip-debug "${MOD}" &> /dev/null
+      "${KERNEL_DIR}"/scripts/sign-file sha512 \
+                                  "${OUT_DIR}/signing_key.priv" \
+                                  "${OUT_DIR}/signing_key.x509" \
+                                  "${MOD}"
+      find "${OUT_DIR}" -name '*.ko' -exec cp {} "${MODULE_DIR}" \;
+      case ${MOD} in
+
+           */wlan.ko)
+             cp -ar "${MOD}" "${PRONTO}"
+
+      esac
+  done
+
   cd $ZIP_DIR
   make clean &>/dev/null
   cp $LOG_DIR/Changelog.txt $ZIP_DIR/Changelog.txt
@@ -147,6 +172,30 @@ make_zip()
 
 make_zip_test()
 {
+  cd $ZIP_DIR
+  make clean &>/dev/null
+  cd ..
+  MODULE_DIR="$PWD/Zipper/modules/system/lib/modules/"
+  PRONTO=${MODULE_DIR}pronto/pronto_wlan.ko
+
+  STRIP="$TOOL_DIR/aarch64-linux-android-4.9/bin/$(echo "$(find "$TOOL_DIR/aarch64-linux-android-4.9/bin" -type f -name "aarch64-*-gcc")" | awk -F '/' '{print $NF}' |\
+sed -e 's/gcc/strip/')"
+
+  for MOD in $(find "${OUT_DIR}" -name '*.ko') ; do
+      "${STRIP}" --strip-unneeded --strip-debug "${MOD}" &> /dev/null
+      "${KERNEL_DIR}"/scripts/sign-file sha512 \
+                                  "${OUT_DIR}/signing_key.priv" \
+                                  "${OUT_DIR}/signing_key.x509" \
+                                  "${MOD}"
+      find "${OUT_DIR}" -name '*.ko' -exec cp {} "${MODULE_DIR}" \;
+      case ${MOD} in
+
+           */wlan.ko)
+             cp -ar "${MOD}" "${PRONTO}"
+
+      esac
+  done
+
   cd $ZIP_DIR
   make clean &>/dev/null
   cp $LOG_DIR/Changelog.txt $ZIP_DIR/Changelog.txt
