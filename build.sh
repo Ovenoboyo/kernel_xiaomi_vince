@@ -68,6 +68,7 @@ fi
 cd $KERNEL_DIR
 
 #Export
+export KBUILD_BUILD_TIMESTAMP="Tue Jan 01 00:00:01 IST 2019"
 export CROSS_COMPILE=$TOOL_DIR/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 export ARCH=arm64
 export SUBARCH=arm64
@@ -162,7 +163,6 @@ sed -e 's/gcc/strip/')"
   done
 
   cd $ZIP_DIR
-  make clean &>/dev/null
   cp $LOG_DIR/Changelog.txt $ZIP_DIR/Changelog.txt
   cp $KERN_IMG $ZIP_DIR/
   make &>/dev/null
@@ -197,7 +197,6 @@ sed -e 's/gcc/strip/')"
   done
 
   cd $ZIP_DIR
-  make clean &>/dev/null
   cp $LOG_DIR/Changelog.txt $ZIP_DIR/Changelog.txt
   cp $KERN_IMG $ZIP_DIR/
   make test &>/dev/null
