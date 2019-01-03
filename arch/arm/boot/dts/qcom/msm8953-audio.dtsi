@@ -199,7 +199,7 @@
 		qcom,cdc-vdd-mic-bias-voltage = <3125000 3125000>;
 		qcom,cdc-vdd-mic-bias-current = <5000>;
 
-		qcom,cdc-mclk-clk-rate = <9600000>;
+		qcom,cdc-mclk-clk-rate = <12288000>;
 
 		qcom,cdc-static-supplies =  "cdc-vdd-io",
 					   "cdc-vdd-pa",
