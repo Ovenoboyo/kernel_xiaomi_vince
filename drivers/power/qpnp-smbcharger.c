@@ -442,7 +442,7 @@ module_param_named(
 	int, S_IRUSR | S_IWUSR
 );
 
-static int smbchg_default_hvdcp_icl_ma = 2000;
+static int smbchg_default_hvdcp_icl_ma = 2750;
 module_param_named(
 	default_hvdcp_icl_ma, smbchg_default_hvdcp_icl_ma,
 	int, S_IRUSR | S_IWUSR
@@ -454,7 +454,7 @@ module_param_named(
 	int, S_IRUSR | S_IWUSR
 );
 
-static int smbchg_default_dcp_icl_ma = 2000;
+static int smbchg_default_dcp_icl_ma = 2750;
 module_param_named(
 	default_dcp_icl_ma, smbchg_default_dcp_icl_ma,
 	int, S_IRUSR | S_IWUSR
@@ -1397,6 +1397,9 @@ static int dc_ilim_ma_table_8996[] = {
 	2400,
 	2500,
 	2600,
+	2650,
+	2700,
+	2750,
 };
 
 static const int fcc_comp_table_8994[] = {
@@ -1416,6 +1419,7 @@ static const int fcc_comp_table_8996[] = {
 	2000,
 	2500,
 	2600,
+	2750,
 };
 
 static const int aicl_rerun_period[] = {
@@ -7806,7 +7810,7 @@ err:
 }
 
 #define DEFAULT_VLED_MAX_UV		3500000
-#define DEFAULT_FCC_MA			2000
+#define DEFAULT_FCC_MA			2750
 static int smb_parse_dt(struct smbchg_chip *chip)
 {
 	int rc = 0, ocp_thresh = -EINVAL;
