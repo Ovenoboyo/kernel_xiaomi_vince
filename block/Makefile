@@ -18,12 +18,12 @@ obj-$(CONFIG_BLK_DEV_THROTTLING)	+= blk-throttle.o
 obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
 obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
 obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
-obj-$(CONFIG_IOSCHED_TEST)	+= test-iosched.o
+obj-y += test-iosched.o
 obj-$(CONFIG_IOSCHED_BFQ) += bfq-iosched.o
 obj-$(CONFIG_CGRUOP_BFQ) += bfq-cgroup.o
-obj-$(CONFIG_IOSCHED_ZEN)       += zen-iosched.o
-obj-$(CONFIG_IOSCHED_MAPLE)     += maple-iosched.o
-obj-$(CONFIG_IOSCHED_SWITCHER)  += iosched_switcher.o
+obj-y += zen-iosched.o
+obj-y += maple-iosched.o
+obj-y += iosched_switcher.o
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o
