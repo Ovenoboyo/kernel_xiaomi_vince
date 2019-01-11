@@ -667,7 +667,8 @@ static void get_speed_bin(struct platform_device *pdev, int *bin,
 	pte_efuse = readl_relaxed(base);
 	devm_iounmap(&pdev->dev, base);
 
-	*bin = (pte_efuse >> 8) & 0x7;
+	//*bin = (pte_efuse >> 8) & 0x7;
+	*bin = 0
 
 	dev_info(&pdev->dev, "Speed bin: %d PVS Version: %d\n", *bin,
 								*version);
