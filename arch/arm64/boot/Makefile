@@ -35,9 +35,6 @@ $(obj)/Image-dtb: $(obj)/Image $(DTB_OBJS) FORCE
 $(obj)/Image.gz: $(obj)/Image FORCE
 	$(call if_changed,gzip)
 
-$(obj)/Image.gz-dtb: $(obj)/Image.gz $(DTB_OBJS) FORCE
-	$(call if_changed,cat)
-
 $(obj)/Image-dtb-hdr: $(obj)/Image FORCE
 	echo -n 'UNCOMPRESSED_IMG' > $@ && \
 	$(call size_append, $(filter-out FORCE,$^)) >> $@
