@@ -40,7 +40,7 @@
 					type = "ext4";
 					mnt_flags = "ro,barrier=1,discard";
 					fsmgr_flags = "wait";
-					status = "disabled";
+					status = "ok";
 				};
 
 
@@ -1667,7 +1667,7 @@ qcom,cpufreq-table = <0x6e8c0 0xfd200 0x13e5c0 0x19c5a8 0x1ec300 0x20ce70 0x21b1
 		qcom,ce-opp-freq = <100000000>;
 	};
 
-	qcom_seecom: qseecom@84A00000 {
+	qcom_seecom: qseecom@84a00000 {
 		compatible = "qcom,qseecom";
 		reg = <0x84A00000 0x1900000>;
 		reg-names = "secapp-region";
