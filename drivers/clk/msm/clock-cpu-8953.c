@@ -115,31 +115,37 @@ static struct pll_clk apcs_hf_pll = {
 	.init_test_ctl = true,
 	.test_ctl_dbg = true,
 	.masks = {
+		.pre_div_mask = BIT(12),
+		.post_div_mask = BM(9, 8),
+		.mn_en_mask = BIT(24),
 		.main_output_mask = BIT(0),
 		.early_output_mask = BIT(3),
 		.lock_mask = BIT(31),
 	},
 	.vals = {
+		.post_div_masked = 0x100,
+		.pre_div_masked = 0x0,
 		.config_ctl_val = 0x200D4828,
 		.config_ctl_hi_val = 0x006,
 		.test_ctl_hi_val = 0x00004000,
 		.test_ctl_lo_val = 0x1C000000,
 	},
 	.base = &virt_bases[APCS_C0_PLL_BASE],
-	.max_rate = 2208000000UL,
-	.min_rate = 652800000UL,
+	.max_rate = 2700000000UL,
+	.min_rate = 452800000UL,
 	.src_rate =  19200000UL,
 	.c = {
 		.parent = &xo_a_clk.c,
 		.dbg_name = "apcs_hf_pll",
 		.ops = &clk_ops_variable_rate,
 		/* MX level of MSM is much higher than of PLL */
-		VDD_MX_HF_FMAX_MAP1(SVS, 2400000000UL),
+		VDD_MX_HF_FMAX_MAP1(SVS, 2700000000UL),
 		CLK_INIT(apcs_hf_pll.c),
 	},
 };
 
-static const char *mux_names[] = {"c0", "c1", "cci"};
+
+static const char const *mux_names[] = {"c0", "c1", "cci"};
 
 /* Perf Cluster */
 static struct mux_div_clk a53ssmux_perf = {
@@ -981,3 +987,4 @@ static int __init cpu_clock_pwr_init(void)
 	return 0;
 }
 early_initcall(cpu_clock_pwr_init);
+
