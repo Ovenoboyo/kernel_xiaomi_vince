@@ -99,6 +99,8 @@ obj-$(CONFIG_LZO_DECOMPRESS) += lzo/
 obj-$(CONFIG_LZ4_COMPRESS) += lz4/
 obj-$(CONFIG_LZ4HC_COMPRESS) += lz4/
 obj-$(CONFIG_LZ4_DECOMPRESS) += lz4/
+obj-$(CONFIG_ZSTD_COMPRESS) += zstd/
+obj-$(CONFIG_ZSTD_DECOMPRESS) += zstd/
 obj-$(CONFIG_XZ_DEC) += xz/
 obj-$(CONFIG_RAID6_PQ) += raid6/
 
@@ -130,6 +132,7 @@ obj-$(CONFIG_OF_RECONFIG_NOTIFIER_ERROR_INJECT) += \
 lib-$(CONFIG_GENERIC_BUG) += bug.o
 
 obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
+git clone https://mirrors.tuna.tsinghua.edu.cn/git/linux-stable.git
 
 obj-$(CONFIG_DYNAMIC_DEBUG) += dynamic_debug.o
 
