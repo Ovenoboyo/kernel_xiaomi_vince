@@ -57,7 +57,6 @@
 #endif // MSM_PLATFORM
 
 
-
 VOS_STATUS hdd_request_firmware(char *pfileName,v_VOID_t *pCtx,v_VOID_t **ppfw_data, v_SIZE_t *pSize);
 
 VOS_STATUS hdd_release_firmware(char *pFileName,v_VOID_t *pCtx);

@@ -1916,7 +1916,6 @@ static v_BOOL_t put_wifi_peer_info( tpSirWifiPeerInfo stats,
                                             stats->rateStats +
                                        (i * sizeof(tSirWifiRateStat)));
         rates = nla_nest_start(vendor_event, i);
-
         if(!rates)
             return FALSE;
 
@@ -2402,10 +2401,10 @@ static v_VOID_t hdd_link_layer_process_peer_stats(hdd_adapter_t *pAdapter,
             return;
         }
 
-        pWifiPeerInfo = (tpSirWifiPeerInfo)((uint8 *)pWifiPeerInfo +
-                (sizeof(tSirWifiPeerInfo) - sizeof(tSirWifiRateStat)) +
-                (numRate * sizeof(tSirWifiRateStat)));
-
+        pWifiPeerInfo = (tpSirWifiPeerInfo)  ((uint8 *)
+                pWifiPeerStat->peerInfo +
+                (i * sizeof(tSirWifiPeerInfo)) +
+                (numRate * sizeof (tSirWifiRateStat)));
         nla_nest_end(vendor_event, peers);
     }
     nla_nest_end(vendor_event, peerInfo);
@@ -12297,7 +12296,6 @@ int __wlan_hdd_cfg80211_change_iface( struct wiphy *wiphy,
     hdd_context_t *pHddCtx;
     hdd_adapter_t  *pP2pAdapter = NULL;
     tCsrRoamProfile *pRoamProfile = NULL;
-    hdd_adapter_t  *pP2pAdapter = NULL;
     eCsrRoamBssType LastBSSType;
     hdd_config_t *pConfig = NULL;
     eMib_dot11DesiredBssType connectedBssType;
@@ -12618,19 +12616,7 @@ int __wlan_hdd_cfg80211_change_iface( struct wiphy *wiphy,
            case NL80211_IFTYPE_P2P_CLIENT:
            case NL80211_IFTYPE_ADHOC:
 
-                if (pAdapter->device_mode == WLAN_HDD_SOFTAP
-                        && !hdd_get_adapter(pHddCtx, WLAN_HDD_P2P_DEVICE)) {
-                    /*
-                     * The p2p interface was deleted while SoftAP mode was init,
-                     * create that interface now that the SoftAP is going down.
-                     */
-                    pP2pAdapter = hdd_open_adapter(pHddCtx, WLAN_HDD_P2P_DEVICE,
-                                       "p2p%d", wlan_hdd_get_intf_addr(pHddCtx),
-                                       VOS_TRUE);
-                }
-
                 hdd_stop_adapter( pHddCtx, pAdapter, VOS_TRUE );
-
 #ifdef FEATURE_WLAN_TDLS
 
                 /* A Mutex Lock is introduced while changing the mode to
@@ -19332,7 +19318,7 @@ static int __wlan_hdd_cfg80211_update_ft_ies(struct wiphy *wiphy,
     }
 
 #ifdef WLAN_FEATURE_VOWIFI_11R_DEBUG
-    hddLog(LOG1, FL("%s called with Ie of length = %zu"), __func__,
+    hddLog(LOGE, FL("%s called with Ie of length = %zu"), __func__,
            ftie->ie_len);
 #endif
 
