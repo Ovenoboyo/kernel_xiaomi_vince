@@ -3,7 +3,6 @@
 # Copyright (C) 2018 Luan Halaiko (tecnotailsplays@gmail.com)
 #                    Abubakar Yagob (abubakaryagob@gmail.com)
 #                    Sahil Gupte (Ovenoboyo@gmail.com)
-# Copyright (C) 2017-2018 Nathan Chancellor
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -73,8 +72,8 @@ cd $KERNEL_DIR
 export CROSS_COMPILE=$TOOL_DIR/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER="Goodboyo"
-export KBUILD_BUILD_HOST="loss"
+export KBUILD_BUILD_USER="Ovenoboyo"
+export KBUILD_BUILD_HOST="zucckarnul"
 
 #Misc
 CONFIG=zucc_defconfig
