@@ -17,6 +17,18 @@
     };
  };
 
+ &rpm_bus {
+	rpm-regulator-smpa1 {
+		status = "okay";
+		pm8953_s1: regulator-s1 {
+			regulator-min-microvolt = <890000>;
+			regulator-max-microvolt = <13200000>;
+			qcom,init-voltage = <1000000>;
+			status = "okay";
+		};
+	};
+ };
+
  &soc {
      apc_cpr: cpr4-ctrl@b018000 {
         qcom,cpr-count-mode = <2>;		/* Staggered */
