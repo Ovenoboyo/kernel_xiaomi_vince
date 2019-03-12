@@ -59,7 +59,11 @@
 #include "mdss_dsi.h"
 #include "mdp3_ctrl.h"
 
+
 #include "mdss_livedisplay.h"
+#ifdef CONFIG_KLAPSE
+#include "klapse.h"
+#endif
 
 extern struct mdss_dsi_ctrl_pdata *change_par_ctrl ;
 extern int change_par_buf;
@@ -376,6 +380,9 @@ static void mdss_fb_set_bl_brightness(struct led_classdev *led_cdev,
 		mdss_fb_set_backlight(mfd, bl_lvl);
 		mutex_unlock(&mfd->bl_lock);
 	}
+#ifdef CONFIG_KLAPSE
+	set_rgb_slider(bl_lvl);
+#endif
 }
 
 static struct led_classdev backlight_led = {
