@@ -126,6 +126,7 @@ struct f_mbim {
 	atomic_t		error;
 	unsigned int		cpkt_drop_cnt;
 	bool			remote_wakeup_enabled;
+	struct delayed_work	rwake_work;
 };
 
 struct mbim_ntb_input_size {

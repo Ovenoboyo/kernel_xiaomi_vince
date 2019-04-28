@@ -33,6 +33,7 @@
 #define PCC_ADJ 0x80
 
 struct kcal_lut_data {
+	bool queue_changes;
 	int red;
 	int green;
 	int blue;
@@ -136,6 +137,21 @@ static uint32_t igc_Table_RGB[IGC_LUT_ENTRIES] = {
 	240, 224, 208, 192, 176, 160, 144, 128, 112, 96, 80, 64,
 	48, 32, 16, 0
 };
+
+static bool mdss_mdp_kcal_is_panel_on(void)
+{
+	int i;
+	struct mdss_mdp_ctl *ctl;
+	struct mdss_data_type *mdata = mdss_mdp_get_mdata();
+
+	for (i = 0; i < mdata->nctl; i++) {
+		ctl = mdata->ctl_off + i;
+		if (mdss_mdp_ctl_is_power_on(ctl))
+			return true;
+	}
+
+	return false;
+}
 
 struct mdss_mdp_ctl *fb0_ctl = 0;
 
